@@ -1,5 +1,5 @@
 #!/bin/bash -x
-printf "Calculating monthly wages until employee reached total working hours\n"
+printf "Added get hours function feature in the program\n"
 #CONSTANTS
 WAGEPERHOUR=20
 WORKINGDAYS=20
@@ -12,24 +12,28 @@ wage=0
 monthlyWage=0
 day=1
 totalHoursWorked=0
+#FUNCTION TO GENERATE WORKING HOURS PER DAY
+function getWorkingHours()
+{
+	random=$1
+	case $random in 
+      $isPresent)
+         hoursPerDay=8
+         ;;
+      $isPartTime)
+         hoursPerDay=4
+         ;;
+      *)
+         hoursPerDay=0
+         ;;
+	esac
+	echo $hoursPerDay
+}
 #CALCULATING MONTHLY WAGES AND TOTAL WORKING HOURS IN WHILE LOOP TILL ANY OF THEM IS REACHED
 while(($day<=$WORKINGDAYS && $totalHoursWorked<=$TOTALWORKINGHOURS)) 
 do
 	random=$((RANDOM%3))
-	case $random in 
-		$isPresent)
-			printf "Employee is full time present\n"
-			hoursPerDay=8
-			;;
-		$isPartTime)
-			printf "Employee is part time present\n"
-			hoursPerDay=4
-			;;
-		*)
-			printf "Employee is absent\n"
-			hoursPerDay=0
-			;;
-	esac
+	hoursPerDay="$( getWorkingHours $random )"
 	totalHoursWorked=$((totalHoursWorked+hoursPerDay))
 	day=$((day+1))
 	wage=$((WAGEPERHOUR*hoursPerDay))
