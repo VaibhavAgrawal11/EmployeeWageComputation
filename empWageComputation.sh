@@ -1,5 +1,5 @@
 #!/bin/bash -x
-printf "Added part time feature to calculate daily wages\n"
+printf "Added case statements to part time feature\n"
 #CONSTANTS
 WAGEPERHOUR=20
 #VARIABLES
@@ -8,16 +8,18 @@ isPartTime=1
 isPresent=2
 wage=0
 random=$((RANDOM%3))
-if(($random==$isPresent))
-then
-	printf "Employee is full time present\n"
-	hoursPerDay=8
-elif(($random==$isPartTime))
-then
-	printf "Employee is part time present\n"
-	hoursPerDay=4
-else
-	printf "Employee is absent\n"
-	hoursPerDay=0
-fi
+case $random in 
+	$isPresent)
+		printf "Employee is full time present\n"
+		hoursPerDay=8
+		;;
+	$isPartTime)
+		printf "Employee is part time present\n"
+		hoursPerDay=4
+		;;
+	*)
+		printf "Employee is absent\n"
+		hoursPerDay=0
+		;;
+esac
 wage=$((WAGEPERHOUR*hoursPerDay))
