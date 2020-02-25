@@ -1,5 +1,5 @@
 #!/bin/bash -x
-printf "Added get hours function feature in the program\n"
+printf "Added function to calculate daily wages and store it in array"
 
 #CONSTANTS
 WAGEPERHOUR=20
@@ -14,6 +14,7 @@ wage=0
 monthlyWage=0
 day=1
 totalHoursWorked=0
+declare -a empDailyWage
 
 #FUNCTION TO GENERATE WORKING HOURS PER DAY
 function getWorkingHours()
@@ -33,14 +34,23 @@ function getWorkingHours()
 	echo $hoursPerDay
 }
 
+#CALCULATING DAILY WAGES
+function calculateDailyWage()
+{
+	local workHours=$1
+	wage=$((workHours*WAGEPERHOUR))
+	echo $wage
+}
+
 #CALCULATING MONTHLY WAGES AND TOTAL WORKING HOURS IN WHILE LOOP TILL ANY OF THEM IS REACHED
 while(($day<=$WORKINGDAYS && $totalHoursWorked<=$TOTALWORKINGHOURS)) 
 do
 	random=$((RANDOM%3))
 	hoursPerDay="$( getWorkingHours $random )"
 	totalHoursWorked=$((totalHoursWorked+hoursPerDay))
+	empDailyWage[$day]="$( calculateDailyWage  $hoursPerDay)"
 	day=$((day+1))
-	wage=$((WAGEPERHOUR*hoursPerDay))
-	monthlyWage=$((monthlyWage+wage))
 done
+monthlyWage="$( calculateDailyWage  $totalHoursWorked)"
 printf "Month wage: $monthlyWage\n"
+printf "Daily wage: " ${empDailyWage[@]}
